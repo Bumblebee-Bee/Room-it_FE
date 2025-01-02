@@ -36,7 +36,6 @@ const MessageContainer = (props: MessageContainerProps) => {
         messages.length > 0 &&
         Object.entries(groupedMessages).map(([date, dateMessages], index) => (
           <div
-            // eslint-disable-next-line react/no-array-index-key
             key={index}
             className='mb-4 mt-8 flex w-custom flex-col items-center justify-end gap-5'
           >
@@ -45,13 +44,11 @@ const MessageContainer = (props: MessageContainerProps) => {
             {dateMessages.map((message, idx) =>
               message.sender === user ? (
                 <SendMessage
-                  // eslint-disable-next-line react/no-array-index-key
                   key={idx}
                   message={message}
                 />
               ) : (
                 <ReceiveMessage
-                  // eslint-disable-next-line react/no-array-index-key
                   key={idx}
                   message={message}
                 />

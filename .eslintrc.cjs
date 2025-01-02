@@ -30,6 +30,7 @@ module.exports = {
     'no-undef': 'off', // 'module' 관련 에러 방지
     'react/jsx-no-useless-fragment': 'off', // React Fragment (<></>)가 단일 자식을 감쌀 때도 허용
     'import/no-extraneous-dependencies': 'off',
+    'react/no-array-index-key': 'off', // index key 이용
     'react/function-component-definition': [
       'off',
       {
