@@ -20,9 +20,7 @@ const ReservationTime = (props: ReservationTimeProps) => {
     return `${String(hour).padStart(2, '0')}:00`;
   });
 
-  const [possibleTimeList, setPossibleTimeList] = useState<string[]>(
-    data.possibleTime,
-  );
+  const [possibleTimeList, setPossibleTimeList] = useState<string[]>([]);
 
   useEffect(() => {
     const todayDate = new Date();
@@ -40,14 +38,15 @@ const ReservationTime = (props: ReservationTimeProps) => {
     // 오늘 날짜이면 현재 시간 이전에는 선택 안됨
     if (todayDateOnly === searchDateOnly) {
       const timeNow = todayDate.getHours();
-      const newPossibleTimeList = possibleTimeList.filter((time) => {
+      const newPossibleTimeList = data.possibleTime.filter((time) => {
         const hour = parseInt(time.split(':')[0], 10);
         return hour > timeNow;
       });
       setPossibleTimeList(newPossibleTimeList);
+    } else {
+      setPossibleTimeList(data.possibleTime);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchDate]);
+  }, [data.possibleTime, searchDate]);
 
   const setTimeArray = (newArray: string[]) => {
     if (newArray.length === 0) {

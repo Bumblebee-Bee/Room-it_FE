@@ -106,7 +106,7 @@ const ChatPage = () => {
     connect();
     return () => disConnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, []);
 
   return (
     <>

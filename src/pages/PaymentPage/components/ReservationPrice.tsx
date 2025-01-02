@@ -18,8 +18,7 @@ const ReservationPrice = (props: ReservationPriceProps) => {
   const reservationTime = searchTime.length;
   useEffect(() => {
     onSetTotalAmount(reservationPrice * reservationTime);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reservationPrice, reservationTime]);
+  }, [onSetTotalAmount, reservationPrice, reservationTime]);
 
   return (
     <div className='mx-auto mt-8 flex w-custom flex-col gap-4'>
