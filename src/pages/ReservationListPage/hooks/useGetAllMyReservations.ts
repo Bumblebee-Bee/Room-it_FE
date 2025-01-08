@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 // 모든 예약 정보 불러오기
 const useGetAllMyReservations = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['myReservationList'],
     queryFn: async () => {
       const reservationList = await getAllReservation();
@@ -15,7 +15,7 @@ const useGetAllMyReservations = () => {
     },
   });
 
-  return { reservationList: data ?? [] };
+  return { reservationList: data ?? [], isLoading };
 };
 
 export default useGetAllMyReservations;

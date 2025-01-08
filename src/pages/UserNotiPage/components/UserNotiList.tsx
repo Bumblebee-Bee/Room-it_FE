@@ -1,8 +1,9 @@
+import { SyncLoader } from 'react-spinners';
 import UserNotiCard from './UserNotiCard';
 import useGetUserAlarm from '../hooks/useGetUserAlarm';
 
 const UserNotiList = () => {
-  const { data: userAlarmList } = useGetUserAlarm();
+  const { data: userAlarmList, isLoading } = useGetUserAlarm();
 
   const sortedNotification = userAlarmList?.sort((b, a) => {
     return +new Date(a.createdAt) - +new Date(b.createdAt);
@@ -22,9 +23,17 @@ const UserNotiList = () => {
           })}
         </div>
       ) : (
-        <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
-          알림이 없습니다.
-        </div>
+        <>
+          {isLoading ? (
+            <div className='flex h-[300px] w-full items-center justify-center'>
+              <SyncLoader color='#50BEAD' />
+            </div>
+          ) : (
+            <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
+              알림이 없습니다.
+            </div>
+          )}
+        </>
       )}
     </>
   );
