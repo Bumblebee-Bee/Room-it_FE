@@ -1,5 +1,5 @@
 import useSearchStore from '@store/searchStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const SelectTime = () => {
   const { searchDate, searchTime, setTime, setFormattedTime } =
@@ -9,10 +9,12 @@ const SelectTime = () => {
   const startHour: number = Number(times.startTime.split(':')[0]);
   const endHour: number = Number(times.endTime.split(':')[0]);
 
-  const timeList = Array.from({ length: endHour - startHour + 1 }, (_, i) => {
-    const hour = startHour + i;
-    return `${String(hour).padStart(2, '0')}:00`;
-  });
+  const timeList = useMemo(() => {
+    return Array.from({ length: endHour - startHour + 1 }, (_, i) => {
+      const hour = startHour + i;
+      return `${String(hour).padStart(2, '0')}:00`;
+    });
+  }, [endHour, startHour]);
 
   const [possibleTimeList, setPossibleTimeList] = useState<string[]>(timeList);
 
@@ -33,14 +35,15 @@ const SelectTime = () => {
     // 오늘 날짜이면 현재 시간 이전에는 선택 안됨
     if (todayDateOnly === searchDateOnly) {
       const timeNow = todayDate.getHours();
-      const newPossibleTimeList = possibleTimeList.filter((time) => {
+      const filteredTimeList = timeList.filter((time) => {
         const hour = parseInt(time.split(':')[0], 10);
         return hour > timeNow;
       });
-      setPossibleTimeList(newPossibleTimeList);
+      setPossibleTimeList(filteredTimeList);
+    } else {
+      setPossibleTimeList(timeList);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchDate]);
+  }, [searchDate, timeList]);
 
   const setTimeArray = (newArray: string[]) => {
     if (newArray.length === 0) {

@@ -104,9 +104,10 @@ const ChatPage = () => {
     getUserNickName();
     loadMessage();
     connect();
+
     return () => disConnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [roomId]);
+  }, []);
 
   return (
     <>

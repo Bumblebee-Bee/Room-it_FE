@@ -32,139 +32,150 @@ import PaymentLoadingPage from '@pages/PaymentPage/PaymentLoadingPage';
 import OAuth from '@pages/UserLogin/components/OAuth';
 import ModifySpace from '@pages/ModifySpace';
 
-const router = createBrowserRouter([
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <MainPage />,
+    },
+    {
+      path: '/start',
+      element: <StartPage />,
+    },
+    {
+      path: '/login/user',
+      element: <UserLogin />,
+    },
+    {
+      path: '/courses',
+      element: <OAuth />,
+    },
+    {
+      path: '/login/business',
+      element: <BusinessLogin />,
+    },
+    {
+      path: '/signup/user',
+      element: <UserSignUp />,
+    },
+    {
+      path: '/signup/business',
+      element: <BusinessSignUp />,
+    },
+    {
+      path: '/register-Space',
+      element: <RegisterSpace />,
+    },
+    {
+      path: '/modify-Space/:workplaceId',
+      element: <ModifySpace />,
+    },
+    {
+      path: '/detail/:workplaceId',
+      element: <DetailPage />,
+    },
+    {
+      path: '/user-page',
+      element: <UserMypage />,
+    },
+    {
+      path: '/reservation-list',
+      element: <ReservationListPage />,
+    },
+    {
+      path: '/write-review',
+      element: <WriteReviewPage />,
+    },
+    {
+      path: '/review-list',
+      element: <ReviewListPage />,
+    },
+    {
+      path: '/user-noti',
+      element: <UserNotiPage />,
+    },
+    {
+      path: '/user-info',
+      element: <UserInfoPage />,
+    },
+    {
+      path: '/user-info-edit',
+      element: <UserInfoEditPage />,
+    },
+    {
+      path: '/host-page',
+      element: <HostMypage />,
+    },
+    {
+      path: '/management-place-list',
+      element: <ManagementPlacePage />,
+    },
+    {
+      path: '/management-reserver-list',
+      element: <ManagementReserverPage />,
+    },
+    {
+      path: '/host-noti',
+      element: <HostNotiPage />,
+    },
+    {
+      path: '/host-info',
+      element: <HostInfoPage />,
+    },
+    {
+      path: '/host-info-edit',
+      element: <HostInfoEditPage />,
+    },
+    {
+      path: '/search',
+      element: <Search />,
+    },
+    {
+      path: '/search-result',
+      element: <SearchResult />,
+    },
+    {
+      path: '/reservation/:studyroomId',
+      element: <ReservationPage />,
+    },
+    {
+      path: '/payment',
+      element: <PaymentPage />,
+    },
+    {
+      path: '/payment-loading',
+      element: <PaymentLoadingPage />,
+    },
+    {
+      path: '/payment-success',
+      element: <PaymentSuccessPage />,
+    },
+    {
+      path: '/payment-fail',
+      element: <PaymentFailPage />,
+    },
+    {
+      path: '/chat-list',
+      element: <ChatListPage />,
+    },
+    {
+      path: '/chat/:roomId',
+      element: <ChatPage />,
+    },
+    {
+      path: '*',
+      // element: <NotFoundPage />,
+    },
+  ],
   {
-    path: '/',
-    element: <MainPage />,
+    future: {
+      v7_relativeSplatPath: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true,
+    },
   },
-  {
-    path: '/start',
-    element: <StartPage />,
-  },
-  {
-    path: '/login/user',
-    element: <UserLogin />,
-  },
-  {
-    path: '/courses',
-    element: <OAuth />,
-  },
-  {
-    path: '/login/business',
-    element: <BusinessLogin />,
-  },
-  {
-    path: '/signup/user',
-    element: <UserSignUp />,
-  },
-  {
-    path: '/signup/business',
-    element: <BusinessSignUp />,
-  },
-  {
-    path: '/register-Space',
-    element: <RegisterSpace />,
-  },
-  {
-    path: '/modify-Space/:workplaceId',
-    element: <ModifySpace />,
-  },
-  {
-    path: '/detail/:workplaceId',
-    element: <DetailPage />,
-  },
-  {
-    path: '/user-page',
-    element: <UserMypage />,
-  },
-  {
-    path: '/reservation-list',
-    element: <ReservationListPage />,
-  },
-  {
-    path: '/write-review',
-    element: <WriteReviewPage />,
-  },
-  {
-    path: '/review-list',
-    element: <ReviewListPage />,
-  },
-  {
-    path: '/user-noti',
-    element: <UserNotiPage />,
-  },
-  {
-    path: '/user-info',
-    element: <UserInfoPage />,
-  },
-  {
-    path: '/user-info-edit',
-    element: <UserInfoEditPage />,
-  },
-  {
-    path: '/host-page',
-    element: <HostMypage />,
-  },
-  {
-    path: '/management-place-list',
-    element: <ManagementPlacePage />,
-  },
-  {
-    path: '/management-reserver-list',
-    element: <ManagementReserverPage />,
-  },
-  {
-    path: '/host-noti',
-    element: <HostNotiPage />,
-  },
-  {
-    path: '/host-info',
-    element: <HostInfoPage />,
-  },
-  {
-    path: '/host-info-edit',
-    element: <HostInfoEditPage />,
-  },
-  {
-    path: '/search',
-    element: <Search />,
-  },
-  {
-    path: '/search-result',
-    element: <SearchResult />,
-  },
-  {
-    path: '/reservation/:studyroomId',
-    element: <ReservationPage />,
-  },
-  {
-    path: '/payment',
-    element: <PaymentPage />,
-  },
-  {
-    path: '/payment-loading',
-    element: <PaymentLoadingPage />,
-  },
-  {
-    path: '/payment-success',
-    element: <PaymentSuccessPage />,
-  },
-  {
-    path: '/payment-fail',
-    element: <PaymentFailPage />,
-  },
-  {
-    path: '/chat-list',
-    element: <ChatListPage />,
-  },
-  {
-    path: '/chat/:roomId',
-    element: <ChatPage />,
-  },
-  {
-    path: '*',
-    // element: <NotFoundPage />,
-  },
-]);
+);
 
 export default router;
