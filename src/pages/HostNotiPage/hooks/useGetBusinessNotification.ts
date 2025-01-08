@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { BusinessNotification } from '@typings/types';
 
 const useGetBusinessNotification = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['businessNotification'],
     queryFn: async () => {
       const reservationNoti = await getBusinessReservationAlarm();
@@ -20,7 +20,7 @@ const useGetBusinessNotification = () => {
       return wholeNotiList;
     },
   });
-  return { allNotification: data ?? [] };
+  return { allNotification: data ?? [], isLoading };
 };
 
 export default useGetBusinessNotification;

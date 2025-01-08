@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react';
+import { SyncLoader } from 'react-spinners';
 import useGetAllMyReservations from '../hooks/useGetAllMyReservations';
 import ReservationDetailCard from './ReservationDetailCard';
 
 const ReservationList = () => {
-  const { reservationList } = useGetAllMyReservations();
+  const { reservationList, isLoading } = useGetAllMyReservations();
   const [activeSortButton, setActiveSortButton] = useState(false);
 
   // 최근 결제일순으로 정렬
@@ -65,9 +66,17 @@ const ReservationList = () => {
               })}
         </div>
       ) : (
-        <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
-          예약 내역이 없습니다.
-        </div>
+        <>
+          {isLoading ? (
+            <div className='flex h-[300px] w-full items-center justify-center'>
+              <SyncLoader color='#50BEAD' />
+            </div>
+          ) : (
+            <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
+              예약 내역이 없습니다.
+            </div>
+          )}
+        </>
       )}
     </>
   );
