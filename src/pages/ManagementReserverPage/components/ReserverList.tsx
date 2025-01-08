@@ -1,8 +1,9 @@
+import { SyncLoader } from 'react-spinners';
 import useGetReserver from '../hooks/useGetReserver';
 import ReserverCard from './ReserverCard';
 
 const ReserverList = () => {
-  const { reserverList } = useGetReserver();
+  const { reserverList, isLoading } = useGetReserver();
 
   const sortedReserverList = [...reserverList].sort((b, a) => {
     return (
@@ -24,9 +25,17 @@ const ReserverList = () => {
           })}
         </div>
       ) : (
-        <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
-          예약자가 없습니다.
-        </div>
+        <>
+          {isLoading ? (
+            <div className='flex h-[300px] w-full items-center justify-center'>
+              <SyncLoader color='#50BEAD' />
+            </div>
+          ) : (
+            <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
+              예약자가 없습니다.
+            </div>
+          )}
+        </>
       )}
     </>
   );
