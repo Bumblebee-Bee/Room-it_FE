@@ -1,9 +1,10 @@
+import { SyncLoader } from 'react-spinners';
 import useGetBusinessNotification from '../hooks/useGetBusinessNotification';
 import HostReservationNotiCard from './HostReservationNotiCard';
 import HostReviewNotiCard from './HostReviewNotiCard';
 
 const HostNotiList = () => {
-  const { allNotification } = useGetBusinessNotification();
+  const { allNotification, isLoading } = useGetBusinessNotification();
 
   const sortedNotification = [...allNotification].sort((b, a) => {
     return +new Date(a.createdAt) - +new Date(b.createdAt);
@@ -37,9 +38,17 @@ const HostNotiList = () => {
           })}
         </div>
       ) : (
-        <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
-          알림이 없습니다.
-        </div>
+        <>
+          {isLoading ? (
+            <div className='flex h-[300px] w-full items-center justify-center'>
+              <SyncLoader color='#50BEAD' />
+            </div>
+          ) : (
+            <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
+              알림이 없습니다.
+            </div>
+          )}
+        </>
       )}
     </>
   );
