@@ -1,8 +1,8 @@
 import TextareaAutosize from 'react-textarea-autosize';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Room } from '@typings/types';
-import RoomImage from '@pages/AddRoom/components/RoomImage';
-import CountPeople from '@pages/AddRoom/components/CountPeople';
+import RoomImage from '@components/RoomImage';
+import CountPeople from '@components/CountPeople';
 import { ERROR_MESSAGE } from '@constants/constants';
 import { validate } from 'uuid';
 import { useParams } from 'react-router-dom';
