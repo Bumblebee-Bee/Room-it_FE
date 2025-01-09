@@ -49,9 +49,8 @@ const DetailComponent = ({
       <div className='mt-3 h-[140px] w-custom'>
         <Map
           center={center}
-          className='h-full w-full'
+          className='h-full w-full rounded-lg'
           level={3}
-          style={{ borderRadius: '8px' }}
           draggable={false}
         >
           <MapMarker

@@ -30,13 +30,11 @@ const RoomSelect = ({
             key={item.studyRoomId}
             type='button'
             onClick={() => handleClick(item.studyRoomId)}
-            className='mb-[16px] rounded-[10px]'
-            style={{
-              border:
-                selectedRoomId === item.studyRoomId
-                  ? '1px solid #50BEAD'
-                  : 'none',
-            }}
+            className={`mb-[16px] rounded-[10px] ${
+              selectedRoomId === item.studyRoomId
+                ? 'border-[1px] border-[#50BEAD]'
+                : ''
+            }`}
           >
             <RoomComponent room={item} />
           </button>
