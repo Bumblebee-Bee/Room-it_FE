@@ -1,4 +1,9 @@
-import { DetailReview, PostReviewRequestBody, Review } from '@typings/types';
+import {
+  DetailReview,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  Review,
+} from '@typings/types';
 import { authInstance, defaultInstance } from '.';
 
 // 상세페이지 리뷰 전체 목록 조회(비로그인)
@@ -30,9 +35,9 @@ export const postReview = async (
 
 // 리뷰 수정
 export const putEditReview = async (
-  reviewId: string,
+  reviewId: number,
   workplaceName: string,
-  data: PostReviewRequestBody,
+  data: PutReviewRequestBody,
 ): Promise<Review> => {
   const response = await authInstance.put(
     `/api/v1/review/update/${reviewId}?workplaceName=${workplaceName}`,

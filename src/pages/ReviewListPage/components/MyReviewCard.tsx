@@ -2,7 +2,7 @@ import { MdArrowForwardIos } from 'react-icons/md';
 import { FaStar, FaRegStar } from 'react-icons/fa6';
 import { getDateFunction } from '@utils/formatTime';
 import { Review } from '@typings/types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ButtonInCard from '@components/ButtonInCard';
 import { useState } from 'react';
 import Modal from '@components/Modal';
@@ -20,6 +20,7 @@ const MyReviewCard = ({ item }: { item: Review }) => {
     reviewId,
   } = item;
 
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const { mutate: deleteReviewMutation } = useDeleteReview();
 
@@ -38,6 +39,19 @@ const MyReviewCard = ({ item }: { item: Review }) => {
   const handleDeleteReview = () => {
     deleteReviewMutation({ id: reviewId, placeName: workplaceName });
     setModalOpen(() => false);
+  };
+
+  // 리뷰 수정 페이지로 이동
+  const handleMoveEdit = () => {
+    navigate('/edit-review', {
+      state: {
+        workplaceName: `${workplaceName}`,
+        reviewId: `${reviewId}`,
+        reviewContent: `${reviewContent}`,
+        reviewRating: `${reviewRating}`,
+        studyRoomName: `${studyRoomName}`,
+      },
+    });
   };
 
   return (
@@ -76,7 +90,10 @@ const MyReviewCard = ({ item }: { item: Review }) => {
             name='삭제'
             onClickFunction={() => setModalOpen(true)}
           />
-          <ButtonInCard name='수정' />
+          <ButtonInCard
+            name='수정'
+            onClickFunction={handleMoveEdit}
+          />
         </div>
       </div>
 
