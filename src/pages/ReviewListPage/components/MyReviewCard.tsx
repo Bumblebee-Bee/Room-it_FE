@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import ButtonInCard from '@components/ButtonInCard';
 import { useState } from 'react';
 import Modal from '@components/Modal';
+import useDeleteReview from '../hooks/useDeleteReview';
 
 const MyReviewCard = ({ item }: { item: Review }) => {
   const {
@@ -16,9 +17,11 @@ const MyReviewCard = ({ item }: { item: Review }) => {
     reviewRating,
     reviewDate,
     workplaceImageURL,
+    reviewId,
   } = item;
 
   const [modalOpen, setModalOpen] = useState(false);
+  const { mutate: deleteReviewMutation } = useDeleteReview();
 
   const showRatingWithStar = (rating: number) => {
     const result = [];
@@ -33,7 +36,7 @@ const MyReviewCard = ({ item }: { item: Review }) => {
 
   // 리뷰 삭제 함수
   const handleDeleteReview = () => {
-    console.log('리뷰 삭제 완료');
+    deleteReviewMutation({ id: reviewId, placeName: workplaceName });
     setModalOpen(() => false);
   };
 

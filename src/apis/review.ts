@@ -41,6 +41,11 @@ export const putEditReview = async (
 };
 
 // 리뷰 삭제
-export const deleteReview = async (reviewId: string): Promise<void> => {
-  await authInstance.delete(`/api/v1/review/${reviewId}`);
+export const deleteReview = async (
+  reviewId: number,
+  workplaceName: string,
+): Promise<void> => {
+  await authInstance.delete(
+    `/api/v1/review/${reviewId}?workplaceName=${workplaceName}`,
+  );
 };
