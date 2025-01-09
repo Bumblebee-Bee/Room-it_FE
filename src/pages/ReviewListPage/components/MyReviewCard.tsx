@@ -3,6 +3,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa6';
 import { getDateFunction } from '@utils/formatTime';
 import { Review } from '@typings/types';
 import { Link } from 'react-router-dom';
+import ButtonInCard from '@components/ButtonInCard';
 
 const MyReviewCard = ({ item }: { item: Review }) => {
   const {
@@ -54,6 +55,10 @@ const MyReviewCard = ({ item }: { item: Review }) => {
       </div>
 
       <div className='text-xs text-subfont'>{getDateFunction(reviewDate)}</div>
+      <div className='flex gap-1 self-end'>
+        <ButtonInCard name='삭제' />
+        <ButtonInCard name='수정' />
+      </div>
     </div>
   );
 };
