@@ -50,6 +50,7 @@ const MyReviewCard = ({ item }: { item: Review }) => {
         reviewContent: `${reviewContent}`,
         reviewRating: `${reviewRating}`,
         studyRoomName: `${studyRoomName}`,
+        workplaceImageURL: `${workplaceImageURL}`,
       },
     });
   };

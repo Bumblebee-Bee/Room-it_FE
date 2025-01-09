@@ -32,7 +32,7 @@ const EditReview = ({ data }: { data: ReviewInfoProps }) => {
     return result;
   };
 
-  // textarea 글자 수 세기
+  // textarea 글자 수 세기 및 content 변경
   const handleCntTextLength = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     let newContent = e.target.value;
     if (newContent.length > 100) {
@@ -56,9 +56,21 @@ const EditReview = ({ data }: { data: ReviewInfoProps }) => {
 
   return (
     <div className='flex w-[375px] flex-col items-center pt-[32px]'>
-      <p className='w-custom text-center text-base font-normal'>
-        {`${data.workplaceName} 평점과 이용 후기를 작성해주세요.`}
-      </p>
+      <div className='flex w-custom flex-col items-center justify-start gap-8 text-center'>
+        <div className='flex w-custom justify-between'>
+          <div className='flex flex-col items-start'>
+            <p className='text-sm'>{`${data.workplaceName}`}</p>
+            <p className='text-sm'>{`${data.studyRoomName}`}</p>
+          </div>
+          <img
+            src={data.workplaceImageURL}
+            alt='스터디룸 사진'
+            className='h-[50px] w-[50px] object-cover'
+          />
+        </div>
+        <hr className='mx-[22.5px] w-custom border-[0.5px] border-dashed' />
+        <p className='font-normal'>평점과 이용 후기를 작성해주세요.</p>
+      </div>
       <form onSubmit={submitHandler}>
         <div className='my-8 flex justify-center text-2xl text-primary'>
           {handleStarClick()}

@@ -9,6 +9,7 @@ export interface ReviewInfoProps {
   reviewContent: string;
   reviewRating: number;
   studyRoomName: string;
+  workplaceImageURL: string;
 }
 
 const EditReviewPage = () => {
