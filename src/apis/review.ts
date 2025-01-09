@@ -31,10 +31,11 @@ export const postReview = async (
 // 리뷰 수정
 export const putEditReview = async (
   reviewId: string,
+  workplaceName: string,
   data: PostReviewRequestBody,
 ): Promise<Review> => {
   const response = await authInstance.put(
-    `/api/v1/review/update/${reviewId}`,
+    `/api/v1/review/update/${reviewId}?workplaceName=${workplaceName}`,
     data,
   );
   return response.data;
