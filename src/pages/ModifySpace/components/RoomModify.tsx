@@ -12,13 +12,13 @@ import useGetRoomListInfo from '../hooks/useGetRoomListInfo';
 import usePostRoom from '../hooks/usePostRoom';
 import usePutRoom from '../hooks/usePutRoom';
 
-interface RoomFormProps {
+interface RoomModifyProps {
   room: Room;
   updateRoomData: (data: Partial<Room>) => void;
   completeAdd: (id: string) => void;
 }
 
-const RoomModify = ({ room, updateRoomData, completeAdd }: RoomFormProps) => {
+const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
