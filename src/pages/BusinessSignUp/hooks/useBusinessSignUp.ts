@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Dispatch } from 'react';
-import { ErrorMsg } from '../components/BusinessSignUpForm';
+import type { ErrorMsg } from '../components/BusinessSignUpForm';
 
 const useBusinessSignUp = (
   setErrorMessage: Dispatch<React.SetStateAction<ErrorMsg>>,

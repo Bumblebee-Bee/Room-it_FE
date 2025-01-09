@@ -9,6 +9,9 @@ type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 const SelectDate = () => {
   const { searchDate, setDate } = useSearchStore();
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 3);
+
   const handleChangeDate = (newDate: SelectedDate) => {
     if (newDate instanceof Date) {
       setDate(new Date(newDate));
@@ -32,6 +35,7 @@ const SelectDate = () => {
         next2Label={null}
         showFixedNumberOfWeeks
         minDate={new Date()}
+        maxDate={maxDate}
       />
     </div>
   );
