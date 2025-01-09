@@ -13,6 +13,11 @@ import WorkSpaceImage from '@pages/RegisterSpace/components/WorkSpaceImage';
 import RoomComponent from '@pages/RegisterSpace/components/RoomComponent';
 import { useParams } from 'react-router-dom';
 import { ERROR_MESSAGE } from '@constants/constants';
+import {
+  isValidAddress,
+  isValidBusinessPhoneNumber,
+  isValidSpaceName,
+} from '@utils/validationCheckRegex';
 import usePutWorkPlace from '../hooks/usePutWorkPlace';
 import useGetWorkPlaceInfo from '../hooks/useGetWorkPlaceInfo';
 import useDeleteRoom from '../hooks/useDeleteRoom';
@@ -55,24 +60,6 @@ const SpaceModify = ({
     addRoom();
   };
 
-  // 사업장명 형식 확인
-  const isValidSpaceName = (name: string) => {
-    const nameRegex = /^[ㄱ-ㅎ가-힣a-zA-Z0-9-\s]{1,20}$/;
-    return nameRegex.test(name);
-  };
-
-  // 전화번호 형식 확인
-  const isValidNumber = (number: string) => {
-    const numberRegex = /^(0507-\d{4}-\d{4}|\d{2,3}-\d{3,4}-\d{4})$/;
-    return numberRegex.test(number);
-  };
-
-  // 주소 형식 확인
-  const isValidAddress = (detail: string) => {
-    const addressRegex = /^[a-zA-Z가-힣0-9\s(),-]{5,100}$/;
-    return addressRegex.test(detail);
-  };
-
   const [errorMessage, setErrorMessage] = useState({
     spaceNameError: '',
     descriptionError: '',
@@ -93,6 +80,7 @@ const SpaceModify = ({
       imageError: '',
     };
 
+    // 사업장명 형식 확인
     if (!isValidSpaceName(spaceFormData.spaceName)) {
       newErrorMessage.spaceNameError = ERROR_MESSAGE.spaceName;
     }
@@ -105,9 +93,11 @@ const SpaceModify = ({
     ) {
       newErrorMessage.timeError = ERROR_MESSAGE.time;
     }
-    if (!isValidNumber(spaceFormData.phoneNumber)) {
+    // 사업장 전화번호 형식 확인
+    if (!isValidBusinessPhoneNumber(spaceFormData.phoneNumber)) {
       newErrorMessage.phoneNumberError = ERROR_MESSAGE.phonNumber;
     }
+    // 주소 형식 확인
     if (!isValidAddress(spaceFormData.address.detail)) {
       newErrorMessage.addressError = ERROR_MESSAGE.address;
     }
@@ -134,7 +124,7 @@ const SpaceModify = ({
       spaceFormData.description !== '' &&
       spaceFormData.openTime !== '선택' &&
       spaceFormData.closedTime !== '선택' &&
-      isValidNumber(spaceFormData.phoneNumber) &&
+      isValidBusinessPhoneNumber(spaceFormData.phoneNumber) &&
       isValidAddress(spaceFormData.address.detail) &&
       spaceFormData.spaceImage.url !== null
     ) {
