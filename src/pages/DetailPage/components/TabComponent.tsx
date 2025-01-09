@@ -38,11 +38,11 @@ const TabComponent = ({
           key={item}
           type='button'
           onClick={() => handleClickTab(index)}
-          style={{
-            color: activeTab === index ? 'black' : '#c3c3c3',
-            borderColor: activeTab === index ? '#50BEAD' : '#c3c3c3',
-          }}
-          className='h-[60px] w-[125px] border-b-2'
+          className={`h-[60px] w-[125px] border-b-2 ${
+            activeTab === index
+              ? 'border-[#50BEAD] text-black'
+              : 'border-[#c3c3c3] text-[#c3c3c3]'
+          }`}
         >
           {item}
         </button>

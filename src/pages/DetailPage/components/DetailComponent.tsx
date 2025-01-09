@@ -1,5 +1,6 @@
 import { GetWorkPlaceData } from '@typings/types';
 import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
+import { IoTime } from 'react-icons/io5';
 import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 const DetailComponent = ({
@@ -11,7 +12,6 @@ const DetailComponent = ({
     lat: Number(workplaceDetailData.latitude),
     lng: Number(workplaceDetailData.longitude),
   };
-
   return (
     <div className='w-custom'>
       <div className='flex flex-col gap-3'>
@@ -22,6 +22,16 @@ const DetailComponent = ({
           />
           <span className='ml-[12px] text-[16px]'>
             {workplaceDetailData.workplacePhoneNumber}
+          </span>
+        </div>
+        <div className='flex items-center'>
+          <IoTime
+            color='#c3c3c3'
+            className='size-5'
+          />
+          <span className='ml-[10px] text-[16px]'>
+            {workplaceDetailData.workplaceStartTime} ~{' '}
+            {workplaceDetailData.workplaceEndTime}
           </span>
         </div>
         <div className='flex items-center'>
@@ -38,9 +48,8 @@ const DetailComponent = ({
       <div className='mt-3 h-[140px] w-custom'>
         <Map
           center={center}
-          className='h-full w-full'
+          className='h-full w-full rounded-lg'
           level={3}
-          style={{ borderRadius: '8px' }}
           draggable={false}
         >
           <MapMarker

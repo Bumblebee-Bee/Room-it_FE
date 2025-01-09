@@ -13,7 +13,7 @@ const ReservationTime = (props: ReservationTimeProps) => {
   const times = { startTime: data.startTime, endTime: data.endTime };
 
   const startHour: number = Number(times.startTime.split(':')[0]);
-  const endHour: number = Number(times.endTime.split(':')[0]);
+  const endHour: number = Number(times.endTime.split(':')[0]) - 1;
 
   const timeList = Array.from({ length: endHour - startHour + 1 }, (_, i) => {
     const hour = startHour + i;

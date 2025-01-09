@@ -8,6 +8,8 @@ type SelectedDate = DatePiece | [DatePiece, DatePiece];
 
 const ReservationDate = () => {
   const { searchDate, setDate, setTime, setFormattedTime } = useSearchStore();
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 3);
 
   const handleChangeDate = (newDate: SelectedDate) => {
     if (newDate instanceof Date) {
@@ -28,6 +30,7 @@ const ReservationDate = () => {
         next2Label={null}
         showFixedNumberOfWeeks
         minDate={new Date()}
+        maxDate={maxDate}
       />
     </div>
   );

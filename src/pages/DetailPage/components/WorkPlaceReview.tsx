@@ -52,7 +52,7 @@ const WorkPlaceReview = ({
             return (
               <div
                 key={review.reviewId}
-                className='border-b border-subfont py-[16px]'
+                className={`border-subfont py-[16px] ${isLastReviewInPage ? 'border-none' : 'border-b'}`}
                 ref={isLastReviewInPage ? observerRef : null} // 페이지의 마지막 리뷰에만 ref 적용
               >
                 <p className='mb-[8px] text-[16px] font-medium'>
