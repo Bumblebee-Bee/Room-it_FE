@@ -12,7 +12,6 @@ const DetailComponent = ({
     lat: Number(workplaceDetailData.latitude),
     lng: Number(workplaceDetailData.longitude),
   };
-  console.log(workplaceDetailData);
   return (
     <div className='w-custom'>
       <div className='flex flex-col gap-3'>
