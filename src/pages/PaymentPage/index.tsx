@@ -16,6 +16,7 @@ export interface StudyRoomInfo {
   workplaceName: string;
   studyRoomTitle: string;
   studyRoomPrice: number;
+  studyRoomImage: string;
 }
 
 export interface ReservationFormData {
