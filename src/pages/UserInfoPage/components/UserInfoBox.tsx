@@ -21,7 +21,7 @@ const UserInfoBox = ({ user }: { user: Member }) => {
             />
             <label
               htmlFor='MALE'
-              className={`+ mr-[20px] ${sex === 'MALE' ? 'text-black' : 'text-subfont'}`}
+              className={`mr-[20px] ${sex === 'MALE' ? 'text-black' : 'text-subfont'}`}
             >
               남자
             </label>
