@@ -2,13 +2,11 @@ import { SyncLoader } from 'react-spinners';
 import { AiFillInfoCircle } from 'react-icons/ai';
 import { getWithinSevenDays } from '@utils/formatTime';
 import ShowWithinSevenDays from '@components/ShowWithinSevenDays';
-import { useState } from 'react';
 import UserNotiCard from './UserNotiCard';
 import useGetUserAlarm from '../hooks/useGetUserAlarm';
 
 const UserNotiList = () => {
   const { data: userAlarmList, isLoading } = useGetUserAlarm();
-  const [isLabel, setIsLabel] = useState(false);
 
   const sortedNotification = userAlarmList?.sort((b, a) => {
     return +new Date(a.createdAt) - +new Date(b.createdAt);
@@ -23,16 +21,23 @@ const UserNotiList = () => {
             3달이 경과된 알림은 자동 삭제처리됩니다.
           </div>
           <hr className='mx-[22.5px] w-custom border-[0.5px] border-dashed' />
-          {sortedNotification.map((item) => {
+
+          {sortedNotification.map((item, index) => {
+            const prevItem = sortedNotification[index - 1];
+
+            // 구분선 표시 조건
+            const showDivider =
+              prevItem &&
+              getWithinSevenDays(prevItem.createdAt) &&
+              !getWithinSevenDays(item.createdAt);
+
             return (
               <>
+                {showDivider && <ShowWithinSevenDays label='최근 7일' />}
                 <UserNotiCard
                   key={item.memberalrimId}
                   item={item}
                 />
-                {!isLabel && getWithinSevenDays(item.createdAt) && (
-                  <ShowWithinSevenDays label='최근 7일' />
-                )}
               </>
             );
           })}

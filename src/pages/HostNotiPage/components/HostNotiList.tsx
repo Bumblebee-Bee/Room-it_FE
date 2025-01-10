@@ -1,5 +1,7 @@
 import { SyncLoader } from 'react-spinners';
 import { AiFillInfoCircle } from 'react-icons/ai';
+import { getWithinSevenDays } from '@utils/formatTime';
+import ShowWithinSevenDays from '@components/ShowWithinSevenDays';
 import useGetBusinessNotification from '../hooks/useGetBusinessNotification';
 import HostReservationNotiCard from './HostReservationNotiCard';
 import HostReviewNotiCard from './HostReviewNotiCard';
@@ -26,20 +28,34 @@ const HostNotiList = () => {
                 ? `review-${item.reviewId || index}`
                 : `reservation-${item.reservationId || index}`;
 
+            const prevItem = sortedNotification[index - 1];
+
+            // 구분선 표시 조건
+            const showDivider =
+              prevItem &&
+              getWithinSevenDays(prevItem.createdAt) &&
+              !getWithinSevenDays(item.createdAt);
+
             if (item.notificationType === 'REVIEW_CREATED') {
               return (
-                <HostReviewNotiCard
-                  key={uniqueKey}
-                  item={item}
-                />
+                <>
+                  {showDivider && <ShowWithinSevenDays label='최근 7일' />}
+                  <HostReviewNotiCard
+                    key={uniqueKey}
+                    item={item}
+                  />
+                </>
               );
             }
 
             return (
-              <HostReservationNotiCard
-                key={uniqueKey}
-                item={item}
-              />
+              <>
+                {showDivider && <ShowWithinSevenDays label='최근 7일' />}
+                <HostReservationNotiCard
+                  key={uniqueKey}
+                  item={item}
+                />
+              </>
             );
           })}
         </div>
