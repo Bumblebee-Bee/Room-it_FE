@@ -31,6 +31,7 @@ import PaymentFailPage from '@pages/PaymentPage/PaymentFailPage';
 import PaymentLoadingPage from '@pages/PaymentPage/PaymentLoadingPage';
 import OAuth from '@pages/UserLogin/components/OAuth';
 import ModifySpace from '@pages/ModifySpace';
+import EditReviewPage from '@pages/EditReviewPage';
 
 const router = createBrowserRouter(
   [
@@ -85,6 +86,10 @@ const router = createBrowserRouter(
     {
       path: '/write-review',
       element: <WriteReviewPage />,
+    },
+    {
+      path: '/edit-review',
+      element: <EditReviewPage />,
     },
     {
       path: '/review-list',
