@@ -1,10 +1,14 @@
 import { SyncLoader } from 'react-spinners';
 import { AiFillInfoCircle } from 'react-icons/ai';
+import { getWithinSevenDays } from '@utils/formatTime';
+import ShowWithinSevenDays from '@components/ShowWithinSevenDays';
+import { useState } from 'react';
 import UserNotiCard from './UserNotiCard';
 import useGetUserAlarm from '../hooks/useGetUserAlarm';
 
 const UserNotiList = () => {
   const { data: userAlarmList, isLoading } = useGetUserAlarm();
+  const [isLabel, setIsLabel] = useState(false);
 
   const sortedNotification = userAlarmList?.sort((b, a) => {
     return +new Date(a.createdAt) - +new Date(b.createdAt);
@@ -21,10 +25,15 @@ const UserNotiList = () => {
           <hr className='mx-[22.5px] w-custom border-[0.5px] border-dashed' />
           {sortedNotification.map((item) => {
             return (
-              <UserNotiCard
-                key={item.memberalrimId}
-                item={item}
-              />
+              <>
+                <UserNotiCard
+                  key={item.memberalrimId}
+                  item={item}
+                />
+                {!isLabel && getWithinSevenDays(item.createdAt) && (
+                  <ShowWithinSevenDays label='최근 7일' />
+                )}
+              </>
             );
           })}
         </div>
