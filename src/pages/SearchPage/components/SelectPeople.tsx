@@ -1,5 +1,7 @@
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import useSearchStore from '@store/searchStore';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const SelectPeople = () => {
   const { searchPeople, setPeople } = useSearchStore();
@@ -11,6 +13,16 @@ const SelectPeople = () => {
       setPeople(searchPeople + 1);
     }
   };
+
+  const location = useLocation();
+  const isBack = location.state || false;
+
+  useEffect(() => {
+    if (!isBack) {
+      setPeople(0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBack]);
 
   return (
     <div className='flex w-custom items-center justify-between gap-[4px]'>

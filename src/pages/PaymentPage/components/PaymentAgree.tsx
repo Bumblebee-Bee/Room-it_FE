@@ -11,6 +11,10 @@ interface PaymentAgreeProps {
 const PaymentAgree = (props: PaymentAgreeProps) => {
   const { checkState, onSetCheckState, errorMessage } = props;
 
+  const handlePrivacyPolicyClick = () => {
+    window.location.href = 'https://pages.tosspayments.com/terms/privacy';
+  };
+
   const handleCheckItem = (checked: boolean, id: string) => {
     if (checked) {
       onSetCheckState({
@@ -36,7 +40,15 @@ const PaymentAgree = (props: PaymentAgreeProps) => {
           isCheck={isChecked('payment1')}
           description='결제 서비스 이용 약관'
           onChangeChecked={handleCheckItem}
-        />
+        >
+          <button
+            type='button'
+            className='text-subfont underline'
+            onClick={handlePrivacyPolicyClick}
+          >
+            보기
+          </button>
+        </CheckAgree>
         <CheckAgree
           checkId='payment2'
           isCheck={isChecked('payment2')}
