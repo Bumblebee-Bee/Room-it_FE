@@ -1,4 +1,9 @@
-import { DetailReview, PostReviewRequestBody, Review } from '@typings/types';
+import {
+  DetailReview,
+  PostReviewRequestBody,
+  PutReviewRequestBody,
+  Review,
+} from '@typings/types';
 import { authInstance, defaultInstance } from '.';
 
 // 상세페이지 리뷰 전체 목록 조회(비로그인)
@@ -30,17 +35,23 @@ export const postReview = async (
 
 // 리뷰 수정
 export const putEditReview = async (
-  reviewId: string,
-  data: PostReviewRequestBody,
+  reviewId: number,
+  workplaceName: string,
+  data: PutReviewRequestBody,
 ): Promise<Review> => {
   const response = await authInstance.put(
-    `/api/v1/review/update/${reviewId}`,
+    `/api/v1/review/update/${reviewId}?workplaceName=${workplaceName}`,
     data,
   );
   return response.data;
 };
 
 // 리뷰 삭제
-export const deleteReview = async (reviewId: string): Promise<void> => {
-  await authInstance.delete(`/api/v1/review/${reviewId}`);
+export const deleteReview = async (
+  reviewId: number,
+  workplaceName: string,
+): Promise<void> => {
+  await authInstance.delete(
+    `/api/v1/review/${reviewId}?workplaceName=${workplaceName}`,
+  );
 };

@@ -21,7 +21,7 @@ const UserInfoBox = ({ user }: { user: Member }) => {
             />
             <label
               htmlFor='MALE'
-              className='mr-[20px] text-[14px]'
+              className={`mr-[20px] ${sex === 'MALE' ? 'text-black' : 'text-subfont'}`}
             >
               남자
             </label>
@@ -37,7 +37,7 @@ const UserInfoBox = ({ user }: { user: Member }) => {
             />
             <label
               htmlFor='FEMALE'
-              className='text-[14px]'
+              className={`mr-[20px] ${sex === 'FEMALE' ? 'text-black' : 'text-subfont'}`}
             >
               여자
             </label>
