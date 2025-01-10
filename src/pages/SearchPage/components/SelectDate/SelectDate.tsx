@@ -2,6 +2,8 @@ import Calendar from 'react-calendar';
 import './SelectDate.css';
 import moment from 'moment';
 import useSearchStore from '@store/searchStore';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 type DatePiece = Date | null;
 
@@ -11,6 +13,16 @@ const SelectDate = () => {
   const { searchDate, setDate } = useSearchStore();
   const maxDate = new Date();
   maxDate.setMonth(maxDate.getMonth() + 3);
+
+  const location = useLocation();
+  const isBack = location.state || false;
+
+  useEffect(() => {
+    if (!isBack) {
+      setDate(new Date());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBack]);
 
   const handleChangeDate = (newDate: SelectedDate) => {
     if (newDate instanceof Date) {

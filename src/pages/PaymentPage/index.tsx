@@ -16,6 +16,7 @@ export interface StudyRoomInfo {
   workplaceName: string;
   studyRoomTitle: string;
   studyRoomPrice: number;
+  studyRoomImage: string;
 }
 
 export interface ReservationFormData {
@@ -80,6 +81,7 @@ const PaymentPage = () => {
             checkState={checkState}
             onSetCheckState={setCheckState}
             errorMessage={errorMessage}
+            workplaceName={studyRoomInfo.workplaceName}
           />
           <ReservationPrice
             studyRoomInfo={studyRoomInfo}

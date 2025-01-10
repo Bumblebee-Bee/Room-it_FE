@@ -14,9 +14,14 @@ const PlaceSearch = () => {
   const location = useLocation();
   const isBack = location.state || false;
 
-  if (isBack) {
-    isClickRef.current = isBack;
-  }
+  useEffect(() => {
+    if (isBack) {
+      isClickRef.current = isBack;
+    } else {
+      setPlace('');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBack]);
 
   const handleSearchPlace = useCallback(() => {
     if (!searchPlace) return;
