@@ -81,6 +81,7 @@ const PaymentPage = () => {
             checkState={checkState}
             onSetCheckState={setCheckState}
             errorMessage={errorMessage}
+            workplaceName={studyRoomInfo.workplaceName}
           />
           <ReservationPrice
             studyRoomInfo={studyRoomInfo}
