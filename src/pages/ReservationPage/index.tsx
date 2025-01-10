@@ -23,7 +23,9 @@ const ReservationPage = () => {
     workplaceName: data.workplaceName,
     studyRoomTitle: data.studyRoomName,
     studyRoomPrice: data.price,
-    studyRoomImage: data.imageUrl[0] || data.imageUrl,
+    studyRoomImage: Array.isArray(data.imageUrl)
+      ? data.imageUrl[0]
+      : data.imageUrl,
   };
 
   const handleClickReservation = () => {
