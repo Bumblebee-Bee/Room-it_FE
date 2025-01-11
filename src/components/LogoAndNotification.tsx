@@ -11,7 +11,6 @@ interface HeaderProps {
 const LogoAndNotification = ({ isLogin }: HeaderProps) => {
   const navigate = useNavigate();
   const role = getRole();
-  // const { activeNoti } = useNotificationStore();
 
   const handleMoveToNotiPageClick = () => {
     if (role === 'ROLE_USER') {

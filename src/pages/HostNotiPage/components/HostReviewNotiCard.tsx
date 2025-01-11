@@ -16,7 +16,7 @@ const HostReviewNotiCard = ({ item }: HostNotiProps) => {
           <div className='mx-auto w-custom px-1.5 py-[13px]'>
             <p className='font-medium'>새 리뷰 등록</p>
 
-            <div className='flex flex-col gap-1'>
+            <div className='mt-2 flex flex-col gap-1'>
               <p className='text-xs text-subfont'>
                 {getDateFunction(createdAt)}
               </p>
