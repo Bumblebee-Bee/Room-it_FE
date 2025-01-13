@@ -7,6 +7,7 @@ interface RoomImagesProps {
 }
 
 const RoomImage = ({ roomImages, onUpdateImages }: RoomImagesProps) => {
+  // 룸 이미지 등록
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
@@ -16,7 +17,7 @@ const RoomImage = ({ roomImages, onUpdateImages }: RoomImagesProps) => {
       file,
     }));
 
-    onUpdateImages([...roomImages, ...fileList].slice(0, 4));
+    onUpdateImages([...roomImages, ...fileList].slice(0, 4)); // 4개까지 가능
   };
 
   const handleDelete = (imgUrl: string) => {

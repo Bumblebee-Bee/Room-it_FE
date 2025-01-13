@@ -19,6 +19,14 @@ interface RoomModifyProps {
 }
 
 const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
+  const roomImageList = room.roomImages.map((obj) => {
+    if (!obj.file) {
+      return obj.url.split('/')[6];
+    }
+    return obj.file.name;
+  });
+  console.log('roomImageList', roomImageList); // 수정되는 이미지 리스트
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -68,19 +76,27 @@ const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
   };
 
   const { workplaceId } = useParams() as { workplaceId: string };
-  const { data: roomInfo } = useGetRoomListInfo(Number(workplaceId));
+  const { data: roomInfo } = useGetRoomListInfo(Number(workplaceId)); // 사업장 스터디룸 리스트
   const { mutateAsync: postRoom } = usePostRoom();
   const { mutateAsync: putRoom } = usePutRoom();
+
+  console.log(
+    'roomInfo',
+    roomInfo
+      ?.find(({ studyRoomId }) => studyRoomId === Number(room.id))
+      ?.imageUrl.map((url) => url.split('/')[6]),
+  ); // 기존 이미지 리스트
 
   const uploadImageToS3 = (url: string, file: File) => {
     axios.put(url, file);
   };
 
+  // 완료 버튼 누를 시
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isValid()) {
       if (validate(room.id)) {
-        // 룸 생성
+        // 룸 생성 (studyroomId 반환)
         const { studyroomId } = await postRoom({
           workPlaceId: workplaceId,
           studyroom: {
