@@ -13,22 +13,22 @@ const ReserverList = () => {
 
   return (
     <>
-      {reserverList.length > 0 ? (
-        <div className='mt-[6px] flex w-[375px] flex-col justify-center pb-24'>
-          {sortedReserverList.map((item) => {
-            return (
-              <ReserverCard
-                key={item.reservationId}
-                item={item}
-              />
-            );
-          })}
+      {isLoading ? (
+        <div className='flex h-[300px] w-full items-center justify-center'>
+          <SyncLoader color='#50BEAD' />
         </div>
       ) : (
         <>
-          {isLoading ? (
-            <div className='flex h-[300px] w-full items-center justify-center'>
-              <SyncLoader color='#50BEAD' />
+          {reserverList.length > 0 ? (
+            <div className='mt-[6px] flex w-[375px] flex-col justify-center pb-24'>
+              {sortedReserverList.map((item) => {
+                return (
+                  <ReserverCard
+                    key={item.reservationId}
+                    item={item}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>
