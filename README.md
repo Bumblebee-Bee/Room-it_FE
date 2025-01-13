@@ -52,7 +52,7 @@ Room:it은 기존 예약 시스템에 문제점을 파악하여 사용자에게 
   <!-- 맞춤형 추천 시스템 -->
   <tr>
     <td align="center" valign="middle" width="50%">
-      <img src="https://github.com/user-attachments/assets/a0c1f445-789f-4d82-b494-6e8f97e31878" alt="BUMBLEBEE_ROOMIT (1)" width="250">
+      <img src="https://github.com/user-attachments/assets/c41cc024-ce06-4c2d-ae2a-1a0edb7a6d10" alt="BUMBLEBEE_ROOMIT (1)" width="250">
     </td>
     <td align="center" valign="middle" width="50%">
       <p>
