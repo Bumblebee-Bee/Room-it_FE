@@ -6,7 +6,7 @@ import CountPeople from '@components/CountPeople';
 import { ERROR_MESSAGE } from '@constants/constants';
 import { validate } from 'uuid';
 import { useParams } from 'react-router-dom';
-import { deleteWorkPlaceImage, getS3URL } from '@apis/workplace';
+import { getS3URL } from '@apis/workplace';
 import axios from 'axios';
 import useGetRoomListInfo from '../hooks/useGetRoomListInfo';
 import usePostRoom from '../hooks/usePostRoom';
@@ -19,14 +19,6 @@ interface RoomModifyProps {
 }
 
 const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
-  const roomImageList = room.roomImages.map((obj) => {
-    if (!obj.file) {
-      return obj.url.split('/')[6];
-    }
-    return obj.file.name;
-  });
-  console.log('roomImageList', roomImageList); // 수정되는 이미지 리스트
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -80,12 +72,17 @@ const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
   const { mutateAsync: postRoom } = usePostRoom();
   const { mutateAsync: putRoom } = usePutRoom();
 
-  console.log(
-    'roomInfo',
-    roomInfo
-      ?.find(({ studyRoomId }) => studyRoomId === Number(room.id))
-      ?.imageUrl.map((url) => url.split('/')[6]),
-  ); // 기존 이미지 리스트
+  // 수정되는 이미지 리스트
+  const roomImageList = room.roomImages
+    .filter(({ file }) => file === null)
+    .map(
+      (obj) => obj.url.split('/')[6], // 파일 이름만 추출
+    );
+
+  // 기존 이미지 리스트
+  const originImageList = roomInfo
+    ?.find(({ studyRoomId }) => studyRoomId === Number(room.id))
+    ?.imageUrl.map((url) => url.split('/')[6]);
 
   const uploadImageToS3 = (url: string, file: File) => {
     axios.put(url, file);
@@ -130,26 +127,16 @@ const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
           },
         });
 
-        // 룸 사진 수정
-        const isImgModified =
-          room.roomImages.some(({ file }) => file !== null) ||
-          (roomInfo &&
-            roomInfo.find(({ studyRoomId }) => studyRoomId === Number(room.id))!
-              .imageUrl.length !== room.roomImages.length);
+        // 추가된 이미지
+        const addImage =
+          // 추가되면 file이 null이 아님
+          room.roomImages.filter(({ file }) => file !== null);
 
-        if (isImgModified) {
-          // 룸 사진 들어있는 폴더 지우기
+        // 새로운 이미지가 추가된 경우
+        if (addImage.length > 0) {
+          // 룸 사진 추가
           await Promise.all(
-            room.roomImages.map(() =>
-              deleteWorkPlaceImage(
-                `workplace-${workplaceId}/studyroom-${room.id}`,
-              ),
-            ),
-          );
-          // 룸 사진들 다시 올리기
-
-          await Promise.all(
-            room.roomImages.map(({ file }) =>
+            addImage.map(({ file }) =>
               getS3URL(
                 file!.name,
                 `workplace-${workplaceId}/studyroom-${room.id}`,
@@ -158,6 +145,16 @@ const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
               ),
             ),
           );
+        }
+
+        // 삭제된 이미지
+        const deletedImage =
+          originImageList &&
+          originImageList.filter((image) => !roomImageList.includes(image));
+
+        // 삭제된 이미지가 있을 경우
+        if (deletedImage) {
+          // 룸 사진 삭제
         }
       }
 
