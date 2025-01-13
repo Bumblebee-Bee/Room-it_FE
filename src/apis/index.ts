@@ -36,6 +36,16 @@ const authInstance: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
+// 로그아웃 로직
+const useLogout = () => {
+  const { storeLogout } = useAuthStore();
+  authInstance.post('/logout');
+  removeAuthToken();
+  removeRole();
+  storeLogout();
+  window.location.replace('/');
+};
+
 // response interceptor (토큰 갱신)
 authInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
@@ -44,6 +54,11 @@ authInstance.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       try {
         const response = await authInstance.post('/reissue');
+
+        // reissue 응답으로 다시 401이 오면 로그아웃 처리
+        if (response.status === 401) {
+          useLogout();
+        }
 
         if (response.status === 200) {
           const token = response.headers.authorization;
@@ -57,12 +72,7 @@ authInstance.interceptors.response.use(
         }
       } catch (refreshError) {
         // 로그아웃 처리
-        const { storeLogout } = useAuthStore();
-        authInstance.post('/logout');
-        removeAuthToken();
-        removeRole();
-        storeLogout();
-        window.location.replace('/');
+        useLogout();
       }
     }
     return Promise.reject(error);
