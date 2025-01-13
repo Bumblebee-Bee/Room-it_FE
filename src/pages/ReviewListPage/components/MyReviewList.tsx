@@ -13,22 +13,22 @@ const MyReviewList = () => {
 
   return (
     <>
-      {myReviewList && myReviewList.length > 0 ? (
-        <div className='mt-[6px] flex w-[375px] flex-col justify-center pb-24'>
-          {sortedReviewList.map((item) => {
-            return (
-              <MyReviewCard
-                key={item.reviewId}
-                item={item}
-              />
-            );
-          })}
+      {isLoading ? (
+        <div className='flex h-[300px] w-full items-center justify-center'>
+          <SyncLoader color='#50BEAD' />
         </div>
       ) : (
         <>
-          {isLoading ? (
-            <div className='flex h-[300px] w-full items-center justify-center'>
-              <SyncLoader color='#50BEAD' />
+          {myReviewList && myReviewList.length > 0 ? (
+            <div className='mt-[6px] flex w-[375px] flex-col justify-center pb-24'>
+              {sortedReviewList.map((item) => {
+                return (
+                  <MyReviewCard
+                    key={item.reviewId}
+                    item={item}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className='mt-[47px] w-[375px] text-center text-[14px] font-normal text-subfont'>

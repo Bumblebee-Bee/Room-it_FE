@@ -9,13 +9,13 @@ const useGetBusinessNotification = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['businessNotification'],
     queryFn: async () => {
+      let wholeNotiList: BusinessNotification[] = [];
       const reservationNoti = await getBusinessReservationAlarm();
       const reviewNoti = await getBusinessReviewAlarm();
 
-      const wholeNotiList: BusinessNotification[] = [
-        ...reservationNoti,
-        ...reviewNoti,
-      ];
+      if (reservationNoti || reviewNoti) {
+        wholeNotiList = [...reservationNoti, ...reviewNoti];
+      }
 
       return wholeNotiList;
     },
