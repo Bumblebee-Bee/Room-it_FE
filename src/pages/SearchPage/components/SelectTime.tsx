@@ -1,9 +1,22 @@
 import useSearchStore from '@store/searchStore';
 import { useEffect, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SelectTime = () => {
   const { searchDate, searchTime, setTime, setFormattedTime } =
     useSearchStore();
+
+  const location = useLocation();
+  const isBack = location.state || false;
+
+  useEffect(() => {
+    if (!isBack) {
+      setTime([]);
+      setFormattedTime([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isBack]);
+
   const times = { startTime: '09:00', endTime: '23:00' };
 
   const startHour: number = Number(times.startTime.split(':')[0]);

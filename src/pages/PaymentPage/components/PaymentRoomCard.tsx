@@ -9,7 +9,7 @@ interface PaymentRoomCardProps {
 
 const PaymentRoomCard = (props: PaymentRoomCardProps) => {
   const { studyRoomInfo } = props;
-  const { workplaceName, studyRoomTitle } = studyRoomInfo;
+  const { workplaceName, studyRoomTitle, studyRoomImage } = studyRoomInfo;
   const { searchDate, formattedTime, searchPeople } = useSearchStore();
 
   const formattedDate = getFormattedDateFunction(searchDate);
@@ -19,7 +19,7 @@ const PaymentRoomCard = (props: PaymentRoomCardProps) => {
       <DetailTitle title='룸 상세 정보' />
       <div className='flex h-[120px] w-custom items-center justify-center gap-[18px] rounded-[10px] shadow-custom'>
         <img
-          src='https://modo-phinf.pstatic.net/20180304_61/1520159998510ED9Yt_JPEG/mosaSDaCsR.jpeg?type=w1100'
+          src={studyRoomImage}
           className='h-[94px] w-[94px] object-cover'
           alt='결제 스터디룸 사진'
         />

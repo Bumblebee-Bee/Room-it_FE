@@ -9,7 +9,6 @@ interface NotificationState {
   connect: () => void;
   disconnect: () => void;
   state: boolean;
-  activeNoti: boolean;
 }
 
 const EventSource = EventSourcePolyfill || NativeEventSource;
@@ -60,8 +59,6 @@ const useNotificationStore = create<NotificationState>((set) => ({
           newMessage.notificationType === 'REVIEW_CREATED'
             ? '새 리뷰가 등록되었습니다.'
             : '새로운 예약이 등록되었습니다.';
-
-        set(() => ({ activeNoti: true }));
 
         set((state) => {
           if (state.message === newText) {
