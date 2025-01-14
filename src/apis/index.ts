@@ -1,16 +1,16 @@
 import axios, {
   AxiosError,
   AxiosInstance,
-  AxiosRequestConfig,
+  // AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
 import { BASE_URL } from '@constants/constants';
 import {
   getAuthToken,
-  removeAuthToken,
-  removeRole,
-  setAuthToken,
+  // removeAuthToken,
+  // removeRole,
+  // setAuthToken,
 } from '@utils/auth';
 import { toast } from 'react-toastify';
 
@@ -44,40 +44,40 @@ const authInstance: AxiosInstance = axios.create({
 */
 
 // response interceptor (토큰 갱신)
-authInstance.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  // 에러 처리 함수
-  async (error: AxiosError) => {
-    // 401 Unauthorized 에러 시 token 갱신하기
-    if (error.response && error.response.status === 401) {
-      try {
-        const response = await defaultInstance.post('/reissue');
+// authInstance.interceptors.response.use(
+//   (response: AxiosResponse) => response,
+//   // 에러 처리 함수
+//   async (error: AxiosError) => {
+//     // 401 Unauthorized 에러 시 token 갱신하기
+//     if (error.response && error.response.status === 401) {
+//       try {
+//         const response = await defaultInstance.post('/reissue');
 
-        // reissue 요청 성공 시
-        if (response.status === 200) {
-          const token = response.headers.authorization;
-          setAuthToken(token);
+//         // reissue 요청 성공 시
+//         if (response.status === 200) {
+//           const token = response.headers.authorization;
+//           setAuthToken(token);
 
-          const originalRequest = error.config as AxiosRequestConfig;
-          if (originalRequest.headers) {
-            originalRequest.headers.Authorization = `Bearer ${token}`;
-          }
-          return await authInstance(originalRequest); // 실패했던 요청 재시도
-        }
-      } catch (refreshError) {
-        // reissue 요청 실패 시
-        const reissueError = refreshError as AxiosError;
-        if (reissueError.response?.status === 401) {
-          // 로그아웃
-          removeAuthToken();
-          removeRole();
-          window.location.replace('/start');
-        }
-      }
-    }
-    return Promise.reject(error);
-  },
-);
+//           const originalRequest = error.config as AxiosRequestConfig;
+//           if (originalRequest.headers) {
+//             originalRequest.headers.Authorization = `Bearer ${token}`;
+//           }
+//           return await authInstance(originalRequest); // 실패했던 요청 재시도
+//         }
+//       } catch (refreshError) {
+//         // reissue 요청 실패 시
+//         const reissueError = refreshError as AxiosError;
+//         if (reissueError.response?.status === 401) {
+//           // 로그아웃
+//           removeAuthToken();
+//           removeRole();
+//           window.location.replace('/start');
+//         }
+//       }
+//     }
+//     return Promise.reject(error);
+//   },
+// );
 
 // request interceptor
 authInstance.interceptors.request.use(
