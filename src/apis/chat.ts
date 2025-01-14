@@ -8,8 +8,11 @@ import { authInstance } from '.';
 // 메시지 기록 조회
 export const getMessage = async (
   roomId: number,
+  date: Date,
 ): Promise<ChatMessageResponse[]> => {
-  const response = await authInstance.get(`/api/v1/chat/room/${roomId}`);
+  const response = await authInstance.get(`/api/v1/chat/room/${roomId}`, {
+    params: { cursor: date },
+  });
   return response.data;
 };
 

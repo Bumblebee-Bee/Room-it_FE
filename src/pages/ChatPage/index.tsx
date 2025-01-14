@@ -43,7 +43,7 @@ const ChatPage = () => {
 
   // 채팅 내용 불러오기
   const loadMessage = async () => {
-    const messageList = await getMessage(Number(roomId));
+    const messageList = await getMessage(Number(roomId), new Date());
     setMessages(messageList);
   };
 
@@ -54,6 +54,9 @@ const ChatPage = () => {
         brokerURL: WS_URL,
         webSocketFactory: () => new SockJS(WS_URL),
         reconnectDelay: 5000, // 자동 재연결
+        connectHeaders: {
+          chatRoomId: roomId as string, // 헤더에 chatRoomId 추가
+        },
       });
 
       // 구독
@@ -96,6 +99,9 @@ const ChatPage = () => {
       stompClient.publish({
         destination: '/pub/sendMessage',
         body: JSON.stringify(chatMessage),
+        headers: {
+          chatRoomId: roomId as string, // 헤더에 chatRoomId 추가
+        },
       });
     }
   };
