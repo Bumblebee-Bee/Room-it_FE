@@ -113,11 +113,13 @@ const ChatPage = () => {
   useEffect(() => {
     getUserNickName();
     loadMessage();
-    connect();
+    if (user !== '') {
+      connect();
+    }
 
     return () => disConnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <>
