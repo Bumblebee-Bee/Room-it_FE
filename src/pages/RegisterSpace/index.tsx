@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Room, Space } from '@typings/types';
 import SpaceForm from './components/SpaceForm';
-import RoomForm from '../../components/RoomForm';
+import RoomForm from './components/RoomForm';
 
 const RegisterSpace = () => {
   // 공간 등록 + 룸 폼 상태관리

@@ -2,8 +2,8 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { Room } from '@typings/types';
 import { ERROR_MESSAGE } from '@constants/constants';
-import RoomImage from './RoomImage';
-import CountPeople from './CountPeople';
+import RoomImage from '@components/RoomImage';
+import CountPeople from '@components/CountPeople';
 
 interface RoomFormProps {
   room: Room;

@@ -75,7 +75,7 @@ const ModifySpace = () => {
     setSpaceFormData((prev) => ({ ...prev, ...data }));
   }, []);
 
-  const [selectedRoomId, setSelectedRoomId] = useState('');
+  const [selectedRoomId, setSelectedRoomId] = useState(''); // 룸 수정하는지 확인
 
   const addRoom = () => {
     const newRoomId = uuidv4();

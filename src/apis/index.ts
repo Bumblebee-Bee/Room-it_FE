@@ -12,7 +12,6 @@ import {
   removeRole,
   setAuthToken,
 } from '@utils/auth';
-import useAuthStore from '@store/authStore';
 import { toast } from 'react-toastify';
 
 // Default Instance
@@ -23,6 +22,7 @@ const defaultInstance: AxiosInstance = axios.create({
     accept: 'application/json',
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 // Auth Instance
@@ -36,30 +36,24 @@ const authInstance: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// 로그아웃 로직
-const useLogout = () => {
-  const { storeLogout } = useAuthStore();
-  authInstance.post('/logout');
-  removeAuthToken();
-  removeRole();
-  storeLogout();
-  window.location.replace('/');
-};
+/*
+  AccessToken 만료 시
+  토큰 재발급 요청(reissue) -> 
+  서버에서 refreshToken 검사 -> 
+  올바른 토큰이면 AccessToken 재발급 , 그렇지 않은 토큰이면 로그아웃 상태로 변경
+*/
 
 // response interceptor (토큰 갱신)
 authInstance.interceptors.response.use(
   (response: AxiosResponse) => response,
+  // 에러 처리 함수
   async (error: AxiosError) => {
-    // token 갱신하기
+    // 401 Unauthorized 에러 시 token 갱신하기
     if (error.response && error.response.status === 401) {
       try {
-        const response = await authInstance.post('/reissue');
+        const response = await defaultInstance.post('/reissue');
 
-        // reissue 응답으로 다시 401이 오면 로그아웃 처리
-        if (response.status === 401) {
-          useLogout();
-        }
-
+        // reissue 요청 성공 시
         if (response.status === 200) {
           const token = response.headers.authorization;
           setAuthToken(token);
@@ -71,8 +65,14 @@ authInstance.interceptors.response.use(
           return await authInstance(originalRequest); // 실패했던 요청 재시도
         }
       } catch (refreshError) {
-        // 로그아웃 처리
-        useLogout();
+        // reissue 요청 실패 시
+        const reissueError = refreshError as AxiosError;
+        if (reissueError.response?.status === 401) {
+          // 로그아웃
+          removeAuthToken();
+          removeRole();
+          window.location.replace('/start');
+        }
       }
     }
     return Promise.reject(error);
@@ -109,8 +109,8 @@ const errorInterceptor = (error: AxiosError) => {
     };
     if (
       // 특정 코드(B004, B005, B006)에서는 toast를 띄우지 않음
-      error.response.status === 409 &&
-      ['B004', 'B005', 'B006'].includes(code)
+      error.response.status === 401 ||
+      (error.response.status === 409 && ['B004', 'B005', 'B006'].includes(code))
     ) {
       return Promise.reject(error);
     }
