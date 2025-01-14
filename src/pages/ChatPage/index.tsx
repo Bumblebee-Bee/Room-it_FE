@@ -55,7 +55,9 @@ const ChatPage = () => {
         webSocketFactory: () => new SockJS(WS_URL),
         reconnectDelay: 5000, // 자동 재연결
         connectHeaders: {
-          chatRoomId: roomId as string, // 헤더에 chatRoomId 추가
+          nickName: user,
+          senderType: role === 'ROLE_USER' ? 'MEMBER' : 'BUSINESS',
+          chatRoomId: roomId as string,
         },
       });
 
@@ -100,7 +102,9 @@ const ChatPage = () => {
         destination: '/pub/sendMessage',
         body: JSON.stringify(chatMessage),
         headers: {
-          chatRoomId: roomId as string, // 헤더에 chatRoomId 추가
+          nickName: user,
+          senderType: role === 'ROLE_USER' ? 'MEMBER' : 'BUSINESS',
+          chatRoomId: roomId as string,
         },
       });
     }
