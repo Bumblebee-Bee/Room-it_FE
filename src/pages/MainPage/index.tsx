@@ -4,7 +4,12 @@ import BottomNavigation from '@layouts/BottomNavigation';
 import usePositionStore from '@store/positionStore';
 import useAuthStore from '@store/authStore';
 import { useEffect, useState } from 'react';
-import { getRole } from '@utils/auth';
+import {
+  getRole,
+  getTokenExpiration,
+  removeAuthToken,
+  removeRole,
+} from '@utils/auth';
 import MainList from './components/MainList';
 import KakaoMap from './components/KakaoMap';
 import {
@@ -28,8 +33,20 @@ const MainPage = () => {
   );
 
   // 비로그인 / 사업자 / 사용자 확인
-  const { isLogin } = useAuthStore();
+  const { isLogin, storeLogout } = useAuthStore();
   const [isUser, setIsUser] = useState<boolean>(false);
+
+  // 토큰 만료 확인
+  useEffect(() => {
+    const isExpiration = getTokenExpiration();
+    if (isExpiration && isExpiration < new Date().getTime()) {
+      removeAuthToken();
+      removeRole();
+      storeLogout();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (isLogin) {

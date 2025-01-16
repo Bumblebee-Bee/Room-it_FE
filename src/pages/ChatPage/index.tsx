@@ -42,9 +42,21 @@ const ChatPage = () => {
   };
 
   // 채팅 내용 불러오기
-  const loadMessage = async () => {
-    const messageList = await getMessage(Number(roomId));
-    setMessages(messageList);
+  const loadMessage = async (cursor?: string) => {
+    try {
+      const messageList = await getMessage(Number(roomId), cursor);
+      setMessages((prevMessages) => [...messageList, ...prevMessages]);
+    } catch (error) {
+      toast.error('메시지를 불러오는 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 채팅 무한 스크롤
+  const loadMoreMessages = () => {
+    if (messages.length > 0) {
+      const lastMessageTimestamp = messages[0].timestamp; // 첫 번째 메시지의 타임스탬프 사용
+      loadMessage(lastMessageTimestamp);
+    }
   };
 
   // 소켓 연결
@@ -54,6 +66,11 @@ const ChatPage = () => {
         brokerURL: WS_URL,
         webSocketFactory: () => new SockJS(WS_URL),
         reconnectDelay: 5000, // 자동 재연결
+        connectHeaders: {
+          nickName: user,
+          senderType: role === 'ROLE_USER' ? 'MEMBER' : 'BUSINESS',
+          chatRoomId: roomId as string,
+        },
       });
 
       // 구독
@@ -96,25 +113,40 @@ const ChatPage = () => {
       stompClient.publish({
         destination: '/pub/sendMessage',
         body: JSON.stringify(chatMessage),
+        headers: {
+          nickName: user,
+          senderType: role === 'ROLE_USER' ? 'MEMBER' : 'BUSINESS',
+          chatRoomId: roomId as string,
+        },
       });
     }
   };
 
   useEffect(() => {
     getUserNickName();
-    loadMessage();
-    connect();
+    if (user !== '') {
+      loadMessage();
+      connect();
+    }
 
     return () => disConnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <>
       <MainLayout>
         <HeaderOnlyTitle title={chatTitle} />
         <div className='fixed left-1/2 top-[93px] flex h-[calc(100vh-93px-94px)] w-custom -translate-x-1/2 overflow-hidden'>
-          <div className='overflow-y-auto'>
+          <div
+            className='overflow-y-auto'
+            onScroll={(e) => {
+              const target = e.target as HTMLDivElement;
+              if (target.scrollTop === 0) {
+                loadMoreMessages();
+              }
+            }}
+          >
             <MessageContainer
               messages={messages}
               user={user}

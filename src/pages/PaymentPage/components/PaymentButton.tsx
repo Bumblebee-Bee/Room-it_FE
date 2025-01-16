@@ -163,14 +163,16 @@ const PaymentButton = (props: PaymentButtonProps) => {
   };
 
   return (
-    <div className='fixed bottom-0 z-10 flex h-[94px] w-[375px] items-center justify-between border-t-[1px] border-t-subfont bg-white px-[30px] pb-[30px] pt-[18px]'>
-      <button
-        type='button'
-        onClick={handlePaymentButton}
-        className='btn-primary'
-      >
-        {totalAmount.toLocaleString('ko-KR')}원 결제하기
-      </button>
+    <div className='fixed bottom-0 z-10 flex h-[94px] w-[375px] items-center justify-center border-t-[1px] border-t-subfont bg-white pb-[16px]'>
+      <div className='flex items-center gap-2'>
+        <button
+          type='button'
+          onClick={handlePaymentButton}
+          className='btn-primary w-custom px-1'
+        >
+          {totalAmount.toLocaleString('ko-KR')}원 결제하기
+        </button>
+      </div>
     </div>
   );
 };

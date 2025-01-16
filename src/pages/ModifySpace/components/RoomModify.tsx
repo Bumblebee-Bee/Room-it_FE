@@ -6,7 +6,7 @@ import CountPeople from '@components/CountPeople';
 import { ERROR_MESSAGE } from '@constants/constants';
 import { validate } from 'uuid';
 import { useParams } from 'react-router-dom';
-import { getS3URL } from '@apis/workplace';
+import { deleteStudyRoomImage, getS3URL } from '@apis/workplace';
 import axios from 'axios';
 import useGetRoomListInfo from '../hooks/useGetRoomListInfo';
 import usePostRoom from '../hooks/usePostRoom';
@@ -155,6 +155,11 @@ const RoomModify = ({ room, updateRoomData, completeAdd }: RoomModifyProps) => {
         // 삭제된 이미지가 있을 경우
         if (deletedImage) {
           // 룸 사진 삭제
+          deletedImage.forEach((img) => {
+            const fileName = img;
+            const fileLocation = `workplace-${workplaceId}/studyroom-${room.id}`;
+            deleteStudyRoomImage(fileName, fileLocation);
+          });
         }
       }
 
