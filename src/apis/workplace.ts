@@ -51,6 +51,16 @@ export const deleteStudyRoom = async (studyRoomId: string): Promise<void> => {
   return authInstance.delete(`/api/v1/studyroom/${studyRoomId}`);
 };
 
+// 스터디룸 이미지 삭제
+export const deleteStudyRoomImage = async (
+  fileName: string,
+  fileLocation: string,
+): Promise<void> => {
+  await authInstance.delete(`/api/delete-object`, {
+    params: { fileName, fileLocation },
+  });
+};
+
 // 사업장의 스터디룸 찾기
 export const getWorkplaceStudyRoom = async (
   workplaceId: number,
