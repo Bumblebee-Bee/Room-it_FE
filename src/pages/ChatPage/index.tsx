@@ -112,8 +112,8 @@ const ChatPage = () => {
 
   useEffect(() => {
     getUserNickName();
-    loadMessage();
     if (user !== '') {
+      loadMessage();
       connect();
     }
 
