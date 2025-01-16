@@ -1,10 +1,21 @@
 const setAuthToken = (accessToken: string) => {
-  localStorage.setItem('accessToken', accessToken);
+  const expiration = new Date().getTime() + 5 * 60 * 1000; // 만료시간 5분
+  localStorage.setItem(
+    'accessToken',
+    JSON.stringify({ accessToken, expiration }),
+  );
 };
 
 const getAuthToken = () => {
-  const token = localStorage.getItem('accessToken');
-  return token;
+  const tokenData = localStorage.getItem('accessToken');
+  const accessToken = tokenData ? JSON.parse(tokenData).accessToken : '';
+  return accessToken;
+};
+
+const getTokenExpiration = () => {
+  const tokenData = localStorage.getItem('accessToken');
+  const expiration = tokenData ? JSON.parse(tokenData).expiration : '';
+  return expiration;
 };
 
 const removeAuthToken = () => {
@@ -29,6 +40,7 @@ const removeRole = () => {
 export {
   setAuthToken,
   getAuthToken,
+  getTokenExpiration,
   removeAuthToken,
   setRole,
   getRole,
