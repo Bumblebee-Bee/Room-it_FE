@@ -1,6 +1,6 @@
 import HeaderOnlyTitle from '@layouts/HeaderOnlyTitle';
 import MainLayout from '@layouts/MainLayout';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Client, IMessage } from '@stomp/stompjs';
 import { useLocation, useParams } from 'react-router-dom';
 import {
@@ -25,7 +25,7 @@ const ChatPage = () => {
   const chatTitle = location.state;
   const { roomId } = useParams();
   const [messages, setMessages] = useState<ChatMessageResponse[]>([]); // 메시지 리스트
-  const [stompClient, setStompClient] = useState<Client | null>(null); // STOMP 클라이언트
+  const stompClientRef = useRef<Client | null>(null);
 
   const role = getRole();
   const [user, setUser] = useState<string>('');
@@ -86,22 +86,28 @@ const ChatPage = () => {
       };
 
       client.activate();
-      setStompClient(client);
+      stompClientRef.current = client;
     } catch (err) {
       toast.error('오류가 발생했습니다.');
     }
   };
 
-  const disConnect = () => {
+  const disConnect = async () => {
     // 연결 끊기
-    if (stompClient === null) {
+    if (!stompClientRef.current) {
       return;
     }
-    stompClient.deactivate();
+
+    await stompClientRef.current.deactivate();
+    stompClientRef.current = null;
   };
 
   const sendMessage = (inputValue: string) => {
-    if (stompClient && stompClient.connected && inputValue) {
+    if (
+      stompClientRef.current &&
+      stompClientRef.current.connected &&
+      inputValue
+    ) {
       const chatMessage: SendMessageRequest = {
         sender: user,
         content: inputValue,
@@ -110,7 +116,7 @@ const ChatPage = () => {
         senderType: role === 'ROLE_USER' ? 'MEMBER' : 'BUSINESS',
       };
 
-      stompClient.publish({
+      stompClientRef.current.publish({
         destination: '/pub/sendMessage',
         body: JSON.stringify(chatMessage),
         headers: {
@@ -124,12 +130,17 @@ const ChatPage = () => {
 
   useEffect(() => {
     getUserNickName();
+
     if (user !== '') {
       loadMessage();
       connect();
     }
 
-    return () => disConnect();
+    return () => {
+      if (stompClientRef.current) {
+        disConnect(); // 컴포넌트 언마운트 시 STOMP 연결 해제
+      }
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
