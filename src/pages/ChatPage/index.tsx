@@ -43,7 +43,7 @@ const ChatPage = () => {
 
   // 채팅 내용 불러오기
   const loadMessage = async () => {
-    const messageList = await getMessage(Number(roomId), new Date());
+    const messageList = await getMessage(Number(roomId));
     setMessages(messageList);
   };
 
