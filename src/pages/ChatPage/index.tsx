@@ -83,6 +83,18 @@ const ChatPage = () => {
             toast.error('오류가 발생했습니다.');
           }
         });
+
+        client.subscribe(`/sub/chat/connect/${roomId}`, (message: IMessage) => {
+          const newMessage = JSON.parse(message.body);
+          if (newMessage.type === 'CONNECT') {
+            setMessages((prevMessages) =>
+              prevMessages.map((msg) => ({
+                ...msg,
+                isRead: true,
+              })),
+            );
+          }
+        });
       };
 
       client.activate();
